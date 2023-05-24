@@ -1,0 +1,30 @@
+.input__form {
+	padding: 1rem 0;
+
+	form {
+		width: 90%;
+		margin: 0 auto;
+		display: flex;
+		justify-content: center;
+
+
+		input {
+			padding: 0.5rem 0.75rem;
+			border: 0;
+			outline: 1px solid var(--clr-borders);
+			width: 100%;
+			background-color: var(--clr-body-bg);
+			color: var(--clr-text);
+			text-align: center;
+		}
+
+		button {
+			padding: 0.5rem 0.75rem;
+			border: 0;
+			outline: 1px solid var(--clr-borders);
+			min-width: 100px;
+			background-color: var(--clr-body-bg);
+			color: var(--clr-text);
+		}
+	}
+}

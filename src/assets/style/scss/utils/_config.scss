@@ -1,0 +1,19 @@
+* {
+	//outline: 1px solid gainsboro;
+	margin: 0;
+	padding: 0;
+}
+#root {
+	height: 100dvh;
+	width: 100dvw;
+}
+
+body {
+  background-color: var(--clr-body-bg);
+	color: var(--clr-text);
+}
+
+#app {
+	width: 100%;
+	margin: 0 auto;
+}
