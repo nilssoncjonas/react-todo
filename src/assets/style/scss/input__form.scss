@@ -16,6 +16,9 @@
 			background-color: var(--clr-body-bg);
 			color: var(--clr-text);
 			text-align: center;
+			&:focus {
+				background: var(--clr-hover-bg);
+			}
 		}
 
 		button {
@@ -25,6 +28,10 @@
 			min-width: 100px;
 			background-color: var(--clr-body-bg);
 			color: var(--clr-text);
+			&:hover {
+				background: var(--clr-hover-bg);
+				cursor: pointer;
+			}
 		}
 	}
 }
