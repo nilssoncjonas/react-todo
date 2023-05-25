@@ -6,6 +6,9 @@
 		margin: 0 auto;
 		display: flex;
 		justify-content: center;
+		&:hover {
+			transform: scale(1.1);
+		}
 
 
 		input {

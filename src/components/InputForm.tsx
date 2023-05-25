@@ -1,11 +1,18 @@
 import React, {useState} from 'react';
+import {ITodo} from "../types";
+import {addTodo} from "../services/dbClient.ts";
 
 const InputForm = () => {
 	const [newTodoTitle, setNewTodoTitle] = useState('')
 
 	const handleSubmit = ( e: React.FormEvent ) => {
 		e.preventDefault()
-		console.log(newTodoTitle)
+		const newTodo: ITodo = {
+			title: newTodoTitle,
+			completed: false,
+			createdAt: new Date(Date.now()).toLocaleString()
+		}
+		addTodo(newTodo)
 	}
 
 	return (
