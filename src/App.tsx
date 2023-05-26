@@ -2,12 +2,13 @@
 // Import style
 import './assets/style/scss/style.scss'
 import InputForm from "./components/InputForm.tsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {db} from "./services/firebase";
 
 import { DocumentData} from "firebase/firestore";
 import {getTodo} from "./services/dbClient.ts";
 import SignUp from "./components/SignUp.tsx";
+import LogIn from "./components/LogIn.tsx";
 
 
 
@@ -32,6 +33,7 @@ const App = () => {
 	<InputForm />
 	{/*<TodoList data={todos} />*/}
 	<SignUp />
+	<LogIn />
 	</div>
   )
 }
