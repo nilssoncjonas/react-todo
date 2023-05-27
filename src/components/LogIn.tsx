@@ -1,21 +1,27 @@
 import React, {useState} from "react"
-import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../services/firebase.ts'
+import {signInWithEmailAndPassword, User} from 'firebase/auth'
+import {auth} from '../services/firebase.ts'
 
-const LogIn = () => {
+interface Prop {
+	onHandelUserId: (user: string) => void
+}
+
+const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-
-	const handleSubmit = (e: React.FormEvent) => {
+	const [user, setUser] = useState<User | null>(null)
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		signInWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				const user = userCredential.user
-				console.log(user)
-			})
-			.catch((err) => {
-				console.log(err.code)
-			})
+		try {
+			const cred = await signInWithEmailAndPassword(auth, email, password)
+			onHandelUserId(cred.user.uid)
+			setUser(cred.user)
+			console.log(cred.user)
+			console.log(cred.user.uid)
+
+		} catch (err) {
+			console.log(err)
+		}
 	}
 	return (
 		<>
@@ -46,6 +52,15 @@ const LogIn = () => {
 					<input type="submit" value="Log In"/>
 				</form>
 			</div>
+
+			{user && (
+				<div>
+					<p>Logged in as: {user.email}</p>
+					<p>Last logged in: {user.metadata.lastSignInTime}</p>
+				</div>
+			)}
+			
+
 		</>
 	)
 }
