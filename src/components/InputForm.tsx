@@ -2,17 +2,29 @@ import React, {useState} from 'react';
 import {ITodo} from "../types";
 import {addTodo} from "../services/dbClient.ts";
 
-const InputForm = () => {
+interface Prop {
+	userId: string
+}
+
+const InputForm: React.FC<Prop> = ({userId}) => {
 	const [newTodoTitle, setNewTodoTitle] = useState('')
 
-	const handleSubmit = ( e: React.FormEvent ) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		const newTodo: ITodo = {
 			title: newTodoTitle,
 			completed: false,
-			createdAt: new Date(Date.now()).toLocaleString()
+			createdAt: new Date(Date.now()).toLocaleString(),
+			userId: userId
 		}
-		addTodo(newTodo)
+		console.log(newTodo)
+		try {
+			await addTodo(newTodo)
+
+		} catch (err) {
+			console.log(err)
+		}
+
 	}
 
 	return (
