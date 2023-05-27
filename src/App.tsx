@@ -14,26 +14,28 @@ import LogIn from "./components/LogIn.tsx";
 
 const App = () => {
 	const [data, setData] = useState<DocumentData[] | null>(null)
-
+	const [ user, setUser] = useState('')
+	
+	
+	const handelUserId = (userId: string) => {
+		setUser(userId)
+	}
 	useEffect(() => {	
-		
 			getTodo(db)
 				.then(r => {
 					setData(r)
 					console.log(r)
 				} )
 				.catch( err => console.log(err))
-		
-	
 	}, [])
 	
 	return (
 	<div id="app">
 	<h1>TODO</h1>	
-	<InputForm />
+	<InputForm userId={user} />
 	{/*<TodoList data={todos} />*/}
 	<SignUp />
-	<LogIn />
+	<LogIn onHandelUserId={handelUserId} />
 	</div>
   )
 }
