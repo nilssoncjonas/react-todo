@@ -1,17 +1,20 @@
-import {collection, getDocs, addDoc, doc, setDoc} from "firebase/firestore";
-import { getAuth, User } from "firebase/auth";
-import { db } from "./firebase.ts";
-import { ITodo } from "../types";
+import {collection, getDocs, addDoc, doc, setDoc, query, where} from "firebase/firestore";
+import {User} from "firebase/auth";
+import {db} from "./firebase.ts";
+import {ITodo} from "../types";
 
-export const  getTodo = async (db) =>  {
-	const todoCol = collection(db, 'todo');
-	const todoSnapshot = await getDocs(todoCol);
-	return todoSnapshot.docs.map(doc => doc.data());
+export const getTodo = async (db, userId: string) => {
+	try {
+		const userTodo = query(collection(db, 'todos'), where('userId', '==', userId));
+		const querySnapshot = await getDocs(userTodo);
+		return querySnapshot.docs.map(doc => doc.data())
+	} catch (err) {
+		console.log(err)
+	}
 }
-
 export const addTodo = async (data: ITodo) => {
 	try {
-		const docRef = await addDoc(collection(db, 'todo'), data)
+		const docRef = await addDoc(collection(db, 'todos'), data)
 		console.log(docRef.id)
 	} catch (err) {
 		console.log(err)
@@ -27,7 +30,7 @@ export const addUser = async (data: User) => {
 	}
 	try {
 		const userRef = doc(db, 'users', data.uid)
-		await setDoc(userRef, user)		
+		await setDoc(userRef, user)
 	} catch (err) {
 		console.log(err)
 	}
