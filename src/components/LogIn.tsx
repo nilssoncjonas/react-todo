@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {signInWithEmailAndPassword, User} from 'firebase/auth'
+import {getAuth, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
 import {auth} from '../services/firebase.ts'
 
 interface Prop {
@@ -19,6 +19,16 @@ const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
 			console.log(cred.user)
 			console.log(cred.user.uid)
 
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
+	const logOut = async () => {
+		try {
+			await signOut(getAuth())
+			console.log('logged out')
+			setUser(null)
 		} catch (err) {
 			console.log(err)
 		}
@@ -56,9 +66,13 @@ const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
 			{user && (
 				<div>
 					<p>Logged in as: {user.email}</p>
+					<p>UID: {user.uid}</p>
 					<p>Last logged in: {user.metadata.lastSignInTime}</p>
 				</div>
 			)}
+			
+				<h2>Sign Out</h2>
+				<button onClick={logOut}>Sign Out</button>
 			
 
 		</>
