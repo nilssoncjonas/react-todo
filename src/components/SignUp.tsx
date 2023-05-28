@@ -1,7 +1,7 @@
-import React, {useState} from "react"
-import {createUserWithEmailAndPassword, User} from "firebase/auth";
-import {auth} from "../services/firebase.ts";
-
+import React, { useState } from "react"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/firebase.ts";
+import { addUser } from "../services/dbClient.ts";
 
 
 const SignUp = () => {
@@ -12,14 +12,10 @@ const SignUp = () => {
 		e.preventDefault();
 		try {
 			const cred = await createUserWithEmailAndPassword(auth, email, password)
-			console.log(cred)
-			console.log(cred.user.uid)
-
+			await addUser(cred.user)
 		} catch (err) {
 			console.log(err)
 		}
-
-
 	}
 
 	return (
