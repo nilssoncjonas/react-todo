@@ -24,7 +24,7 @@ const InputForm: React.FC<Prop> = ({userId}) => {
 		} catch (err) {
 			console.log(err)
 		}
-
+	setNewTodoTitle('')
 	}
 
 	return (

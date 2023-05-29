@@ -7,12 +7,13 @@ import { addUser } from "../services/dbClient.ts";
 const SignUp = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [displayName, setDisplayName] = useState('');
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
-			const cred = await createUserWithEmailAndPassword(auth, email, password)
-			await addUser(cred.user)
+			const { user } = await createUserWithEmailAndPassword(auth, email, password)
+			await addUser(user, displayName)
 		} catch (err) {
 			console.log(err)
 		}
@@ -24,6 +25,16 @@ const SignUp = () => {
 				<h1>Sign Up</h1>
 				<form onSubmit={handleSubmit}>
 
+					<label htmlFor="name">Name:</label>
+					<input
+						type="text"
+						id="displayName"
+						name="displayName"
+						value={displayName}
+						onChange={(event) => setDisplayName(event.target.value)}
+						required
+					/>
+					
 					<label htmlFor="email">Email:</label>
 					<input
 						type="email"

@@ -65,7 +65,7 @@ const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
 
 			{user && (
 				<div>
-					<p>Logged in as: {user.email}</p>
+					<p>Logged in as: {user.displayName}</p>
 					<p>UID: {user.uid}</p>
 					<p>Last logged in: {user.metadata.lastSignInTime}</p>
 				</div>
