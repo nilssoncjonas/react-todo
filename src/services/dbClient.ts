@@ -23,9 +23,9 @@ export const getTodo = async (db: Firestore) => {
 		console.log(err)
 	}
 }
-export const addTodo = async (data: ITodo) => {
+export const addTodo = async (todo: ITodo) => {
 	try {
-		const docRef = await addDoc(collection(db, 'todos'), data)
+		const docRef = await addDoc(collection(db, 'todos'), todo)
 		console.log(docRef.id)
 	} catch (err) {
 		console.log(err)

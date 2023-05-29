@@ -3,10 +3,11 @@ import {ITodo} from "../types";
 import {addTodo} from "../services/dbClient.ts";
 
 interface Prop {
-	userId: string | undefined
+	userId: string | undefined,
+	onAddTodo: (todo: ITodo) => void
 }
 
-const InputForm: React.FC<Prop> = ({userId}) => {
+const InputForm: React.FC<Prop> = ({userId, onAddTodo}) => {
 	const [newTodoTitle, setNewTodoTitle] = useState('')
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -17,14 +18,8 @@ const InputForm: React.FC<Prop> = ({userId}) => {
 			createdAt: new Date(Date.now()).toLocaleString(),
 			userId: userId
 		}
-		console.log(newTodo)
-		try {
-			await addTodo(newTodo)
-
-		} catch (err) {
-			console.log(err)
-		}
-	setNewTodoTitle('')
+		onAddTodo(newTodo)
+		setNewTodoTitle('')
 	}
 
 	return (
