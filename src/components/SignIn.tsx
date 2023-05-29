@@ -5,10 +5,9 @@ import {auth} from '../services/firebase.ts'
 interface Prop {
 	onUserLogIn: (user: User) => void,
 	onUser: User | undefined,
-	onUserLogOut: () => void
 }
 
-const LogInOut: React.FC<Prop> = ({onUserLogIn, onUser, onUserLogOut}) => {
+const SignIn: React.FC<Prop> = ({onUserLogIn, onUser}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
@@ -17,6 +16,8 @@ const LogInOut: React.FC<Prop> = ({onUserLogIn, onUser, onUserLogOut}) => {
 		try {
 			const cred = await signInWithEmailAndPassword(auth, email, password)
 			onUserLogIn(cred.user)
+			setEmail('')
+			setPassword('')
 			console.log('Logged in with UID: ',cred.user.uid)
 		} catch (err) {
 			console.log(err)
@@ -26,8 +27,9 @@ const LogInOut: React.FC<Prop> = ({onUserLogIn, onUser, onUserLogOut}) => {
 
 	return (
 		<>
-			<div>
-				<h1>Log In ➡️</h1>
+			
+			<div className="form__container">
+				<h2>Log In</h2>
 				<form onSubmit={handleSubmit}>
 
 					<label htmlFor="email">Email:</label>
@@ -50,8 +52,11 @@ const LogInOut: React.FC<Prop> = ({onUserLogIn, onUser, onUserLogOut}) => {
 						required
 					/>
 
-					<input type="submit" value="Log In"/>
+					<input className="btn" type="submit" value="Log In"/>
 				</form>
+				<p>
+					Don't have an account?
+				</p>
 			</div>
 
 			{onUser && (
@@ -60,13 +65,9 @@ const LogInOut: React.FC<Prop> = ({onUserLogIn, onUser, onUserLogOut}) => {
 					<p>UID: {onUser.uid}</p>
 					<p>Last logged in: {onUser.metadata.lastSignInTime}</p>
 				</div>
-			)}
-			
-				<h2>Sign Out</h2>
-				<button onClick={onUserLogOut}>Sign Out</button>
-			
+			)}		
 
 		</>
 	)
 }
-export default LogInOut
+export default SignIn

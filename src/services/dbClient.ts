@@ -8,7 +8,7 @@ const auth = getAuth()
 	return auth.currentUser
 }
 
-export const getTodo = async (db: Firestore) => {
+export const getTodo = async () => {
 	
 	try {
 		const user = await getCurrentUser()

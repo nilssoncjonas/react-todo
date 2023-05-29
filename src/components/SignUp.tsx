@@ -14,6 +14,9 @@ const SignUp = () => {
 		try {
 			const { user } = await createUserWithEmailAndPassword(auth, email, password)
 			await addUser(user, displayName)
+			setDisplayName('')
+			setEmail('')
+			setPassword('')
 		} catch (err) {
 			console.log(err)
 		}
@@ -21,8 +24,8 @@ const SignUp = () => {
 
 	return (
 		<>
-			<div>
-				<h1>Sign Up</h1>
+			<div className="form__container">
+				<h2>Sign Up</h2>
 				<form onSubmit={handleSubmit}>
 
 					<label htmlFor="name">Name:</label>
@@ -55,8 +58,12 @@ const SignUp = () => {
 						required
 					/>
 
-					<input type="submit" value="Sign Up"/>
+					<input className="btn" type="submit" value="Sign Up"/>
 				</form>
+				<p>
+				Already have an account?
+				</p>
+					
 			</div>
 		</>
 
