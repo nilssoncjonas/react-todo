@@ -14,23 +14,31 @@ import {ITodo} from "./types";
 
 
 const App = () => {
-	const [data, setData] = useState<ITodo[] | null>(null)
+	const [data, setData] = useState<ITodo[]>([])
 	const [user, setUser] = useState('')
 
 	const handelUserId = (userId: string) => {
 		setUser(userId)
 	}
+	
 	const onGetTodo = async () => {
 		const todos = await getTodo(db)
-		console.log('return',todos)
+		if (!todos || todos.length === 0) {
+			console.log('No todos')
+			return
+		}
 		setData(todos)
-		console.log('setData',data)
-	}	
-	
+	}
+
 	return (
 		<div id="app">
 			<h1>TODO</h1>
 			<InputForm userId={user}/>
+			
+				{data && (
+					<p>{data.map((t, index) => <span key={index}>{t.title}</span>)}</p>
+				)}
+			
 			<div>
 				<h2>Get Todos</h2>
 				<button onClick={onGetTodo}>Get Todos</button>

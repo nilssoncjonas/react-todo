@@ -1,15 +1,21 @@
-import {collection, getDocs, addDoc, doc, setDoc, query, where} from "firebase/firestore";
-import {User, updateProfile, getAuth} from "firebase/auth";
+import {addDoc, collection, doc, Firestore, getDocs, query, setDoc, where} from "firebase/firestore";
+import {getAuth, updateProfile, User} from "firebase/auth";
 import {db} from "./firebase.ts";
 import {ITodo} from "../types";
 
-import { Firestore } from "firebase/firestore";
-
+const getCurrentUser =  () => {
 const auth = getAuth()
-const user: User | null = auth.currentUser
+	return auth.currentUser
+}
 
 export const getTodo = async (db: Firestore) => {
+	
 	try {
+		const user = await getCurrentUser()
+		if (!user) {
+			console.log('User not signed in')
+			return
+		}
 		const userTodos = query(collection(db, 'todos'), where('userId', '==', user?.uid));
 		const querySnapshot = await getDocs(userTodos);
 		return querySnapshot.docs.map(doc => doc.data()) as ITodo[]
@@ -36,8 +42,9 @@ export const addUser = async (data: User, displayName: string) => {
 	try {
 		const userRef = doc(db, 'users', data.uid)
 		await setDoc(userRef, newUser)
-		if (!auth.currentUser) { return	}
-		await updateProfile(auth.currentUser, {displayName: displayName})
+		const user = await getCurrentUser()
+		if (!user) { return	}
+		await updateProfile(user, {displayName: displayName})
 	} catch (err) {
 		console.log(err)
 	}

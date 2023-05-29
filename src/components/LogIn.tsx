@@ -16,8 +16,7 @@ const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
 			const cred = await signInWithEmailAndPassword(auth, email, password)
 			onHandelUserId(cred.user.uid)
 			setUser(cred.user)
-			console.log(cred.user)
-			console.log(cred.user.uid)
+			console.log('Logged in with UID: ',cred.user.uid)
 
 		} catch (err) {
 			console.log(err)
