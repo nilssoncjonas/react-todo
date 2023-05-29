@@ -23,7 +23,7 @@ const InputForm: React.FC<Prop> = ({userId, onAddTodo}) => {
 	}
 
 	return (
-		<div className="input__form">
+		<div className="form__container">
 			<form onSubmit={handleSubmit}>
 				<input
 					type="text"

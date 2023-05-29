@@ -54,8 +54,8 @@ const sendTodo = async (todo: ITodo) => {
 			<InputForm userId={user?.uid} onAddTodo={sendTodo}/>
 
 			{data && (
-				<ul>
-					{data.map((t, index) => <li key={index}>{t.title}</li>)}
+				<ul className="todo__list">
+					{data.map((t, index) => <li key={index} className={t.completed ? 'completed' : ''}>{t.title}</li>)}
 				</ul>
 			)}
 

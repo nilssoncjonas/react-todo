@@ -4,17 +4,48 @@
 	padding: 0;
 	transition: all 0.3s ease-in-out;
 }
+
 #root {
 	height: 100dvh;
 	width: 100dvw;
 }
 
 body {
-  background-color: var(--clr-body-bg);
+	background-color: var(--clr-body-bg);
 	color: var(--clr-text);
 }
 
 #app {
 	width: 100%;
 	margin: 0 auto;
+	h1 {
+		width: fit-content;
+		margin: 1rem auto;
+	}
+}
+
+input {
+	background-color: var(--clr-body-bg);
+	color: var(--clr-text);
+	padding: 0.5rem 0.75rem;
+	border: 0;
+	outline: 1px solid var(--clr-borders);
+
+	&:focus {
+		background: var(--clr-hover-bg);
+	}
+}
+
+button {
+	padding: 0.5rem 0.75rem;
+	border: 0;
+	outline: 1px solid var(--clr-borders);
+	min-width: 100px;
+	background-color: var(--clr-body-bg);
+	color: var(--clr-text);
+	
+	&:hover {
+		background: var(--clr-hover-bg);
+		cursor: pointer;
+	}
 }

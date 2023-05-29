@@ -1,0 +1,16 @@
+.todo__list {
+	width: 360px;
+	margin: 2rem auto;
+	list-style: none;
+
+	li {
+		margin: 1rem auto;
+		padding: 1rem 0;
+	}
+}
+
+.completed {
+	text-decoration: line-through;
+	font-style: italic;
+	color: var(--clr-todo-completed)
+}
