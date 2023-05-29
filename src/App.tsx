@@ -8,10 +8,10 @@ import {getTodo} from "./services/dbClient.ts";
 
 import InputForm from "./components/InputForm.tsx";
 import SignUp from "./components/SignUp.tsx";
-import LogIn from "./components/LogIn.tsx";
+import LogInOut from "./components/LogInOut.tsx";
 
 import {ITodo} from "./types";
-import {User} from "firebase/auth";
+import {getAuth, signOut, User} from "firebase/auth";
 
 
 const App = () => {
@@ -27,19 +27,30 @@ const App = () => {
 		}
 		setData(todos)
 	}
-	
+
+	const userLogOut = async () => {
+		try {
+			await signOut(getAuth())
+			console.log('logged out')
+		setUser(undefined)
+			setData([])
+		} catch (err) {
+			console.log(err)
+		}
+	}
+
 
 	return (
 		<div id="app">
 			<h1>TODO</h1>
 			<InputForm userId={user?.uid}/>
-			
-				{data && (
-					<p>{data.map((t, index) => <span key={index}>{t.title}</span>)}</p>
-				)}
-			
+
+			{data && (
+				<p>{data.map((t, index) => <span key={index}>{t.title}</span>)}</p>
+			)}
+
 			<SignUp/>
-			<LogIn onUserLogIn={userLogIn} onUser={user}/>
+			<LogInOut onUserLogIn={userLogIn} onUser={user} onUserLogOut={userLogOut}/>
 
 
 		</div>

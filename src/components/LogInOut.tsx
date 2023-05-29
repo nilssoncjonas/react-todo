@@ -1,13 +1,14 @@
 import React, {useState} from "react"
-import {getAuth, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
+import {signInWithEmailAndPassword, User} from 'firebase/auth'
 import {auth} from '../services/firebase.ts'
 
 interface Prop {
 	onUserLogIn: (user: User) => void,
-	onUser: User | undefined
+	onUser: User | undefined,
+	onUserLogOut: () => void
 }
 
-const LogIn: React.FC<Prop> = ({onUserLogIn, onUser}) => {
+const LogInOut: React.FC<Prop> = ({onUserLogIn, onUser, onUserLogOut}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
@@ -22,15 +23,7 @@ const LogIn: React.FC<Prop> = ({onUserLogIn, onUser}) => {
 		}
 	}
 
-	const logOut = async () => {
-		try {
-			await signOut(getAuth())
-			console.log('logged out')
-			setUser(null)
-		} catch (err) {
-			console.log(err)
-		}
-	}
+
 	return (
 		<>
 			<div>
@@ -70,10 +63,10 @@ const LogIn: React.FC<Prop> = ({onUserLogIn, onUser}) => {
 			)}
 			
 				<h2>Sign Out</h2>
-				<button onClick={logOut}>Sign Out</button>
+				<button onClick={onUserLogOut}>Sign Out</button>
 			
 
 		</>
 	)
 }
-export default LogIn
+export default LogInOut
