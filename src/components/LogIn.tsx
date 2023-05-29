@@ -3,21 +3,20 @@ import {getAuth, signInWithEmailAndPassword, signOut, User} from 'firebase/auth'
 import {auth} from '../services/firebase.ts'
 
 interface Prop {
-	onHandelUserId: (user: string) => void
+	onUserLogIn: (user: User) => void,
+	onUser: User | undefined
 }
 
-const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
+const LogIn: React.FC<Prop> = ({onUserLogIn, onUser}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [user, setUser] = useState<User | null>(null)
+	
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		try {
 			const cred = await signInWithEmailAndPassword(auth, email, password)
-			onHandelUserId(cred.user.uid)
-			setUser(cred.user)
+			onUserLogIn(cred.user)
 			console.log('Logged in with UID: ',cred.user.uid)
-
 		} catch (err) {
 			console.log(err)
 		}
@@ -62,11 +61,11 @@ const LogIn: React.FC<Prop> = ({onHandelUserId}) => {
 				</form>
 			</div>
 
-			{user && (
+			{onUser && (
 				<div>
-					<p>Logged in as: {user.displayName}</p>
-					<p>UID: {user.uid}</p>
-					<p>Last logged in: {user.metadata.lastSignInTime}</p>
+					<p>Logged in as: {onUser.displayName}</p>
+					<p>UID: {onUser.uid}</p>
+					<p>Last logged in: {onUser.metadata.lastSignInTime}</p>
 				</div>
 			)}
 			

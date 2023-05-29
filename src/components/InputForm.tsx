@@ -3,7 +3,7 @@ import {ITodo} from "../types";
 import {addTodo} from "../services/dbClient.ts";
 
 interface Prop {
-	userId: string
+	userId: string | undefined
 }
 
 const InputForm: React.FC<Prop> = ({userId}) => {

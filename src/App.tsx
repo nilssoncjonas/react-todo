@@ -11,17 +11,15 @@ import SignUp from "./components/SignUp.tsx";
 import LogIn from "./components/LogIn.tsx";
 
 import {ITodo} from "./types";
+import {User} from "firebase/auth";
 
 
 const App = () => {
 	const [data, setData] = useState<ITodo[]>([])
-	const [user, setUser] = useState('')
+	const [user, setUser] = useState<User | undefined>()
 
-	const handelUserId = (userId: string) => {
-		setUser(userId)
-	}
-	
-	const onGetTodo = async () => {
+	const userLogIn = async (user: User) => {
+		setUser(user)
 		const todos = await getTodo(db)
 		if (!todos || todos.length === 0) {
 			console.log('No todos')
@@ -29,22 +27,19 @@ const App = () => {
 		}
 		setData(todos)
 	}
+	
 
 	return (
 		<div id="app">
 			<h1>TODO</h1>
-			<InputForm userId={user}/>
+			<InputForm userId={user?.uid}/>
 			
 				{data && (
 					<p>{data.map((t, index) => <span key={index}>{t.title}</span>)}</p>
 				)}
 			
-			<div>
-				<h2>Get Todos</h2>
-				<button onClick={onGetTodo}>Get Todos</button>
-			</div>
 			<SignUp/>
-			<LogIn onHandelUserId={handelUserId}/>
+			<LogIn onUserLogIn={userLogIn} onUser={user}/>
 
 
 		</div>
