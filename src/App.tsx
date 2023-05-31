@@ -12,6 +12,7 @@ import SignIn from "./components/SignIn.tsx";
 
 import {ITodo} from "./types";
 import {getAuth, signOut, User} from "firebase/auth";
+import TodoList from "./components/TodoList.tsx";
 
 
 
@@ -52,15 +53,11 @@ const sendTodo = async (todo: ITodo) => {
 		<div id="app">
 			<h1>TODO</h1>
 			<InputForm userId={user?.uid} onAddTodo={sendTodo}/>
+			<TodoList data={data}/>
 
-			{data && (
-				<ul className="todo__list">
-					{data.map((t, index) => <li key={index} className={t.completed ? 'completed' : ''}>{t.title}</li>)}
-				</ul>
-			)}
 
-			<div>
-			
+
+			<div>			
 				<SignUp/>				
 				<SignIn onUserLogIn={userLogIn} onUser={user}/>
 				<SignOut onUserLogOut={userLogOut} />

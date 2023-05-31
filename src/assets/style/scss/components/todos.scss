@@ -1,11 +1,33 @@
-.todo__list {
-	width: 360px;
+.todo__container {
+	width: 600px;
 	margin: 2rem auto;
-	list-style: none;
 
-	li {
-		margin: 1rem auto;
-		padding: 1rem 0;
+	p {
+		display: flex;
+		justify-content: space-around;
+		margin-bottom: 1rem;
+
+	}
+}
+
+.todo__wrap {
+	display: flex;
+
+	ul {
+		width: 360px;
+		margin: 1rem;
+		list-style: none;
+
+		li {
+			margin: 0.5rem auto;
+			padding: 1rem;
+			border: 1px solid var(--clr-text);
+			background: var(--clr-hover-bg);
+
+			&:hover {
+				background: var(--clr-bg);
+			}
+		}
 	}
 }
 
