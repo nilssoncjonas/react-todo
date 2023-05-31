@@ -1,32 +1,29 @@
 import React from "react"
 import {ITodo} from "../types";
+import TodoListItem from "./TodoListItem.tsx";
 
 interface IProp {
-data: ITodo[]
+	todos: ITodo[]
+	onToggle: (todo: ITodo) => void
+	onDelete: (todo: ITodo) => void
 }
 
-const TodoList:React.FC<IProp> = ({ data }) => {
-	console.log(data)
+const TodoList: React.FC<IProp> = ({todos, onToggle, onDelete}) => {
+	console.log(todos)
 	return (
-		<div className="todo__container">
-			<p><span>Incomplete</span><span>Complete</span></p>
-			<div className="todo__wrap">
-				{data && (
-					<>
-					
-					<ul>
-						{data.filter((f) => f.completed === false).map((t, index) => <li key={index}>{t.title}</li>)}
-					</ul>	
-						
-					<ul>
-						{data.filter((f) => f.completed === true).map((t, index) => <li key={index} className="completed">{t.title}</li>)}
-					</ul>
-					
-					</>
-				)}
-			</div>
-			
-		</div>
+		<>
+				<ul>
+					{
+						todos.map((todo, index) => (
+							<TodoListItem
+								todo={todo}
+								key={index}
+								onToggle={onToggle}
+								onDelete={onDelete}/>
+						))
+					}
+				</ul>
+		</>
 	)
 }
 export default TodoList

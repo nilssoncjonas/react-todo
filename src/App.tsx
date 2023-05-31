@@ -49,14 +49,30 @@ const sendTodo = async (todo: ITodo) => {
 	await getTodos()
 }
 
+const delTodo = async () => {
+		
+}
+const togTodo = async (todo: ITodo) => {
+	console.log(todo)
+}
+	const unfinishedTodos = data.filter(todo => !todo.completed)
+	const finishedTodos = data.filter(todo => todo.completed)
 	return (
 		<div id="app">
-			<h1>TODO</h1>
+			<h1>My ToDo App!</h1>
 			<InputForm userId={user?.uid} onAddTodo={sendTodo}/>
-			<TodoList data={data}/>
-
-
-
+			<div className="todo__container">
+				<h2>Tasks</h2>
+			<TodoList 
+				todos={unfinishedTodos} 				
+				onToggle={togTodo}
+				onDelete={delTodo}/>			
+			
+			<TodoList 
+				todos={finishedTodos} 				
+				onToggle={togTodo}
+				onDelete={delTodo}/>
+			</div>
 			<div>			
 				<SignUp/>				
 				<SignIn onUserLogIn={userLogIn} onUser={user}/>

@@ -1,22 +1,22 @@
 .todo__container {
-	width: 600px;
+	width: 360px;
 	margin: 2rem auto;
 
 	p {
-		display: flex;
+
 		justify-content: space-around;
 		margin-bottom: 1rem;
+
 
 	}
 }
 
-.todo__wrap {
-	display: flex;
 
 	ul {
-		width: 360px;
-		margin: 1rem;
+		width: 300px;
+		margin: 1rem auto;
 		list-style: none;
+		flex-grow: 1;
 
 		li {
 			margin: 0.5rem auto;
@@ -29,7 +29,7 @@
 			}
 		}
 	}
-}
+
 
 .completed {
 	text-decoration: line-through;
