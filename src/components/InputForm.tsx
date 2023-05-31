@@ -16,7 +16,8 @@ const InputForm: React.FC<Prop> = ({userId, onAddTodo}) => {
 			title: newTodoTitle,
 			completed: false,
 			createdAt: new Date(Date.now()).toLocaleString(),
-			userId: userId
+			userId: userId,
+			id: ''
 		}
 		onAddTodo(newTodo)
 		setNewTodoTitle('')

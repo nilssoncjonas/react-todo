@@ -1,9 +1,9 @@
 // Import style
 import './assets/style/scss/style.scss'
 
-import React, {useState} from "react";
+import {useState} from "react";
 
-import {addTodo, getTodo} from "./services/dbClient.ts";
+import {addTodo, getTodo, updateTodo} from "./services/dbClient.ts";
 
 import InputForm from "./components/InputForm.tsx";
 import SignUp from "./components/SignUp.tsx";
@@ -13,7 +13,6 @@ import SignIn from "./components/SignIn.tsx";
 import {ITodo} from "./types";
 import {getAuth, signOut, User} from "firebase/auth";
 import TodoList from "./components/TodoList.tsx";
-
 
 
 const App = () => {
@@ -36,25 +35,26 @@ const App = () => {
 			console.log(err)
 		}
 	}
- const getTodos = async () => {
-	const todos = await getTodo()
-	if (!todos || todos.length === 0) {
-		console.log('No todos')
-		return
+	const getTodos = async () => {
+		const todos = await getTodo()
+		if (!todos || todos.length === 0) {
+			console.log('No todos')
+			return
+		}
+		setData(todos)
 	}
-	setData(todos)
-} 
-const sendTodo = async (todo: ITodo) => {
-	await addTodo(todo)
-	await getTodos()
-}
+	const sendTodo = async (todo: ITodo) => {
+		await addTodo(todo)
+		await getTodos()
+	}
 
-const delTodo = async () => {
-		
-}
-const togTodo = async (todo: ITodo) => {
-	console.log(todo)
-}
+	const delTodo = async () => {
+
+	}
+	const togTodo = async (todo: ITodo) => {
+		await updateTodo(todo)
+		await getTodos()
+	}
 	const unfinishedTodos = data.filter(todo => !todo.completed)
 	const finishedTodos = data.filter(todo => todo.completed)
 	return (
@@ -63,20 +63,20 @@ const togTodo = async (todo: ITodo) => {
 			<InputForm userId={user?.uid} onAddTodo={sendTodo}/>
 			<div className="todo__container">
 				<h2>Tasks</h2>
-			<TodoList 
-				todos={unfinishedTodos} 				
-				onToggle={togTodo}
-				onDelete={delTodo}/>			
-			
-			<TodoList 
-				todos={finishedTodos} 				
-				onToggle={togTodo}
-				onDelete={delTodo}/>
+				<TodoList
+					todos={unfinishedTodos}
+					onToggle={togTodo}
+					onDelete={delTodo}/>
+
+				<TodoList
+					todos={finishedTodos}
+					onToggle={togTodo}
+					onDelete={delTodo}/>
 			</div>
-			<div>			
-				<SignUp/>				
+			<div>
 				<SignIn onUserLogIn={userLogIn} onUser={user}/>
-				<SignOut onUserLogOut={userLogOut} />
+				<SignUp/>
+				<SignOut onUserLogOut={userLogOut}/>
 			</div>
 
 		</div>

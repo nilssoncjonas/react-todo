@@ -1,15 +1,16 @@
-import {addDoc, collection, doc, Firestore, getDocs, query, setDoc, where} from "firebase/firestore";
+import {addDoc, updateDoc, collection, doc, getDocs, query, setDoc, where} from "firebase/firestore";
 import {getAuth, updateProfile, User} from "firebase/auth";
 import {db} from "./firebase.ts";
 import {ITodo} from "../types";
 
-const getCurrentUser =  () => {
-const auth = getAuth()
+
+const getCurrentUser = () => {
+	const auth = getAuth()
 	return auth.currentUser
 }
 
 export const getTodo = async () => {
-	
+
 	try {
 		const user = await getCurrentUser()
 		if (!user) {
@@ -27,10 +28,23 @@ export const addTodo = async (todo: ITodo) => {
 	try {
 		const docRef = await addDoc(collection(db, 'todos'), todo)
 		console.log(docRef.id)
+		const newId = docRef.id
+		const idRef = doc(db, 'todos', docRef.id)
+		await updateDoc(idRef,
+			{id: newId}
+		)
 	} catch (err) {
 		console.log(err)
 	}
 }
+
+export const updateTodo = async (todo: ITodo) => {
+	const data = {
+		completed: !todo.completed
+	}
+	await updateDoc(doc(db, 'todos', todo.id), data)
+} 
+
 export const addUser = async (data: User, displayName: string) => {
 	const newUser = {
 		email: data.email,
@@ -43,7 +57,9 @@ export const addUser = async (data: User, displayName: string) => {
 		const userRef = doc(db, 'users', data.uid)
 		await setDoc(userRef, newUser)
 		const user = await getCurrentUser()
-		if (!user) { return	}
+		if (!user) {
+			return
+		}
 		await updateProfile(user, {displayName: displayName})
 	} catch (err) {
 		console.log(err)
