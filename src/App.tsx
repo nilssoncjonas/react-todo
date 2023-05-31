@@ -3,7 +3,7 @@ import './assets/style/scss/style.scss'
 
 import {useState} from "react";
 
-import {addTodo, getTodo, updateTodo} from "./services/dbClient.ts";
+import {addTodo, deleteTodo, getTodo, updateTodo} from "./services/dbClient.ts";
 
 import InputForm from "./components/InputForm.tsx";
 import SignUp from "./components/SignUp.tsx";
@@ -38,6 +38,7 @@ const App = () => {
 	const getTodos = async () => {
 		const todos = await getTodo()
 		if (!todos || todos.length === 0) {
+			setData([])
 			console.log('No todos')
 			return
 		}
@@ -48,8 +49,9 @@ const App = () => {
 		await getTodos()
 	}
 
-	const delTodo = async () => {
-
+	const delTodo = async (todo: ITodo) => {
+		await deleteTodo(todo)
+		await getTodos()
 	}
 	const togTodo = async (todo: ITodo) => {
 		await updateTodo(todo)
@@ -62,16 +64,25 @@ const App = () => {
 			<h1>My ToDo App!</h1>
 			<InputForm userId={user?.uid} onAddTodo={sendTodo}/>
 			<div className="todo__container">
-				<h2>Tasks</h2>
-				<TodoList
-					todos={unfinishedTodos}
-					onToggle={togTodo}
-					onDelete={delTodo}/>
+				
+				{data.length > 0 && (
+					<>
+						<h2>Tasks</h2>
+						<TodoList
+							todos={unfinishedTodos}
+							onToggle={togTodo}
+							onDelete={delTodo}/>
 
-				<TodoList
-					todos={finishedTodos}
-					onToggle={togTodo}
-					onDelete={delTodo}/>
+						<TodoList
+							todos={finishedTodos}
+							onToggle={togTodo}
+							onDelete={delTodo}/>
+					</>
+				)}
+				
+				{data.length === 0 && (
+					<p>¯\_(ツ)_/¯ you have nothing to do!</p>
+				)}
 			</div>
 			<div>
 				<SignIn onUserLogIn={userLogIn} onUser={user}/>

@@ -1,4 +1,4 @@
-import {addDoc, updateDoc, collection, doc, getDocs, query, setDoc, where} from "firebase/firestore";
+import {addDoc, updateDoc, collection, doc, getDocs, query, setDoc, where, deleteDoc} from "firebase/firestore";
 import {getAuth, updateProfile, User} from "firebase/auth";
 import {db} from "./firebase.ts";
 import {ITodo} from "../types";
@@ -44,6 +44,10 @@ export const updateTodo = async (todo: ITodo) => {
 	}
 	await updateDoc(doc(db, 'todos', todo.id), data)
 } 
+
+export const deleteTodo = async (todo: ITodo) => {
+	await deleteDoc(doc(db, 'todos', todo.id))
+}
 
 export const addUser = async (data: User, displayName: string) => {
 	const newUser = {
